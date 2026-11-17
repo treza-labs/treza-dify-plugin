@@ -81,6 +81,7 @@ def test_get_run(monkeypatch):
 
 
 def test_get_balance(monkeypatch):
-    fake = FakeTreza(get_credit_balance=[(200, {"balanceUsd": 12.5, "topUpUrl": "https://www.trezalabs.com/platform/settings"})])
+    fake = FakeTreza(get_credit_balance=[(200, {"balanceUsd": 12.5, "markup": 1.4, "packs": [], "topUpUrl": "https://www.trezalabs.com/platform/settings"})])
     out = run(GetBalanceTool, fake, {}, monkeypatch)
     assert out["vars"]["balance_usd"] == 12.5 and out["text"][0].startswith("Your Treza balance is $12.50.")
+    assert out["json"] == [{"balance_usd": 12.5, "top_up_url": "https://www.trezalabs.com/platform/settings"}]
