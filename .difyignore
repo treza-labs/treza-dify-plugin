@@ -11,3 +11,4 @@ tests/
 *.difypkg
 .gitignore
 .difyignore
+.bin/
