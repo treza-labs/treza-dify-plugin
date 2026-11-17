@@ -1,0 +1,67 @@
+identity:
+  name: get_run
+  author: treza-labs
+  label:
+    en_US: Check a Render
+description:
+  human:
+    en_US: Looks up a render by its run ID and returns the finished file, or its status if it is still running. Free.
+  llm: Checks a Treza render by pipeline ID and run ID. Returns the file link once it is finished, or the status while it is still rendering. Costs nothing.
+parameters:
+- name: pipeline_id
+  type: string
+  required: true
+  form: llm
+  label:
+    en_US: Pipeline ID
+  human_description:
+    en_US: From the step that started the render.
+  llm_description: The pipeline ID returned when the render started.
+- name: run_id
+  type: string
+  required: true
+  form: llm
+  label:
+    en_US: Run ID
+  human_description:
+    en_US: From the step that started the render.
+  llm_description: The run ID returned when the render started.
+- name: wait_seconds
+  type: number
+  required: false
+  form: form
+  label:
+    en_US: Wait (seconds)
+  human_description:
+    en_US: How long to keep waiting if the render is still running. 0 checks once.
+  llm_description: How long to wait for the render before returning.
+  default: 0
+  min: 0
+  max: 540
+output_schema:
+  type: object
+  properties:
+    url:
+      type: string
+      description: Link to the finished file. Empty while the render is still running.
+    status:
+      type: string
+      description: running, success, partial, error or cancelled.
+    finished:
+      type: boolean
+      description: True once the render is done.
+    price_usd:
+      type: number
+      description: What Treza quoted for the render, in US dollars.
+    model:
+      type: string
+      description: The model that made it.
+    run_id:
+      type: string
+      description: The run ID, for Check a Render.
+    pipeline_id:
+      type: string
+      description: The pipeline ID, for Check a Render.
+extra:
+  python:
+    source: tools/get_run.py

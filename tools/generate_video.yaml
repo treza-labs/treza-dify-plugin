@@ -1,0 +1,128 @@
+identity:
+  name: generate_video
+  author: treza-labs
+  label:
+    en_US: Generate a Video
+description:
+  human:
+    en_US: Makes a video clip from a prompt. Treza quotes the price first and stops if it is over Max cost.
+  llm: Generates one short AI video clip from a text prompt and returns a link to the MP4 file. Rendering takes one to five minutes. The cost comes out of the Treza account credits, up to the cap the user set.
+parameters:
+- name: prompt
+  type: string
+  required: true
+  form: llm
+  label:
+    en_US: Prompt
+  human_description:
+    en_US: 'What the video shows: the subject, the action, the setting and the camera.'
+  llm_description: 'A description of the video clip: the subject, the action, the setting and the camera move.'
+- name: max_cost_usd
+  type: number
+  required: true
+  form: form
+  label:
+    en_US: Max cost (USD)
+  human_description:
+    en_US: The most this step may spend. Treza quotes the price first. If it is higher, the step stops and nothing is spent.
+  llm_description: The spending cap in US dollars, set by the user.
+  default: 2
+  min: 0.01
+- name: aspect_ratio
+  type: select
+  required: false
+  form: llm
+  label:
+    en_US: Shape
+  human_description:
+    en_US: Horizontal, vertical or square.
+  llm_description: The video shape. 16:9 is horizontal, 9:16 is vertical for Shorts, Reels and TikTok, 1:1 is square.
+  default: '16:9'
+  options:
+  - value: '16:9'
+    label:
+      en_US: Horizontal (16:9)
+  - value: '9:16'
+    label:
+      en_US: Vertical (9:16)
+  - value: '1:1'
+    label:
+      en_US: Square (1:1)
+- name: duration_sec
+  type: number
+  required: false
+  form: llm
+  label:
+    en_US: Length (seconds)
+  human_description:
+    en_US: Models that render fixed lengths use the next one up.
+  llm_description: Clip length in seconds, usually 4 to 10.
+  min: 1
+  max: 60
+- name: model
+  type: string
+  required: false
+  form: form
+  label:
+    en_US: Model
+  human_description:
+    en_US: A model ID from Treza's model list, for example google/veo-3.1-lite. Leave empty for Treza's default.
+  llm_description: Optional Treza model ID.
+- name: with_audio
+  type: boolean
+  required: false
+  form: form
+  label:
+    en_US: With sound
+  human_description:
+    en_US: Generate sound with the video, on models that can.
+  llm_description: Whether to generate sound with the video.
+  default: true
+- name: name
+  type: string
+  required: false
+  form: form
+  label:
+    en_US: Name
+  human_description:
+    en_US: What to call the render in Treza.
+  llm_description: A short name for the render in Treza.
+- name: wait_seconds
+  type: number
+  required: false
+  form: form
+  label:
+    en_US: Wait (seconds)
+  human_description:
+    en_US: How long to wait for the video. If it is not done by then, the step returns the run ID and Check a Render gets the file later.
+  llm_description: How long to wait for the render before returning.
+  default: 300
+  min: 0
+  max: 540
+output_schema:
+  type: object
+  properties:
+    url:
+      type: string
+      description: Link to the finished file. Empty while the render is still running.
+    status:
+      type: string
+      description: running, success, partial, error or cancelled.
+    finished:
+      type: boolean
+      description: True once the render is done.
+    price_usd:
+      type: number
+      description: What Treza quoted for the render, in US dollars.
+    model:
+      type: string
+      description: The model that made it.
+    run_id:
+      type: string
+      description: The run ID, for Check a Render.
+    pipeline_id:
+      type: string
+      description: The pipeline ID, for Check a Render.
+extra:
+  python:
+    source: tools/generate_video.py

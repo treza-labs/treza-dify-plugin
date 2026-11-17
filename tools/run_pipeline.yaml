@@ -1,0 +1,78 @@
+identity:
+  name: run_pipeline
+  author: treza-labs
+  label:
+    en_US: Run a Pipeline
+description:
+  human:
+    en_US: Runs one of your Treza pipelines with new inputs. Treza quotes the price first and stops if it is over Max cost.
+  llm: Runs a saved Treza pipeline by its ID, optionally with new inputs, and returns a link to the finished file. The cost comes out of the Treza account credits, up to the cap the user set.
+parameters:
+- name: pipeline_id
+  type: string
+  required: true
+  form: llm
+  label:
+    en_US: Pipeline ID
+  human_description:
+    en_US: The ID in the pipeline's address in Treza. It starts with pipeline_.
+  llm_description: The Treza pipeline ID, starting with pipeline_.
+- name: inputs
+  type: string
+  required: false
+  form: llm
+  label:
+    en_US: Inputs (JSON)
+  human_description:
+    en_US: New values for the pipeline's input steps, as JSON with one entry per step ID. Leave empty to run it as saved.
+  llm_description: A JSON object string mapping input step IDs to new values.
+- name: max_cost_usd
+  type: number
+  required: true
+  form: form
+  label:
+    en_US: Max cost (USD)
+  human_description:
+    en_US: The most this step may spend. Treza quotes the price first. If it is higher, the step stops and nothing is spent.
+  llm_description: The spending cap in US dollars, set by the user.
+  default: 5
+  min: 0.01
+- name: wait_seconds
+  type: number
+  required: false
+  form: form
+  label:
+    en_US: Wait (seconds)
+  human_description:
+    en_US: How long to wait for the render. If it is not done by then, the step returns the run ID and Check a Render gets the file later.
+  llm_description: How long to wait for the render before returning.
+  default: 300
+  min: 0
+  max: 540
+output_schema:
+  type: object
+  properties:
+    url:
+      type: string
+      description: Link to the finished file. Empty while the render is still running.
+    status:
+      type: string
+      description: running, success, partial, error or cancelled.
+    finished:
+      type: boolean
+      description: True once the render is done.
+    price_usd:
+      type: number
+      description: What Treza quoted for the render, in US dollars.
+    model:
+      type: string
+      description: The model that made it.
+    run_id:
+      type: string
+      description: The run ID, for Check a Render.
+    pipeline_id:
+      type: string
+      description: The pipeline ID, for Check a Render.
+extra:
+  python:
+    source: tools/run_pipeline.py

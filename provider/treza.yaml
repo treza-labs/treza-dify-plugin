@@ -1,0 +1,32 @@
+identity:
+  author: treza-labs
+  name: treza
+  label:
+    en_US: Treza
+  description:
+    en_US: Generate AI pictures and videos, and run your Treza pipelines, with a price cap on every render.
+  icon: icon.svg
+  icon_dark: icon-dark.svg
+  tags:
+  - image
+  - videos
+credentials_for_provider:
+  api_key:
+    type: secret-input
+    required: true
+    label:
+      en_US: Treza API key
+    placeholder:
+      en_US: treza_live_...
+    help:
+      en_US: Create a key in Treza with the pipelines:read, pipelines:write and pipelines:run permissions.
+    url: https://www.trezalabs.com/platform/api-keys
+tools:
+- tools/generate_image.yaml
+- tools/generate_video.yaml
+- tools/run_pipeline.yaml
+- tools/get_run.yaml
+- tools/get_balance.yaml
+extra:
+  python:
+    source: provider/treza.py

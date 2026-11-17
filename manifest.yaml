@@ -1,0 +1,37 @@
+version: 0.0.1
+type: plugin
+author: treza-labs
+name: treza
+label:
+  en_US: Treza
+description:
+  en_US: Generate AI pictures and videos, and run your Treza pipelines, with a price cap on every render.
+icon: icon.svg
+icon_dark: icon-dark.svg
+created_at: '2026-11-16T12:00:00.000000000Z'
+repo: https://github.com/treza-labs/treza-dify-plugin
+contact: hello@trezalabs.com
+privacy: ./PRIVACY.md
+tags:
+- image
+- videos
+resource:
+  memory: 268435456
+  permission: {}
+network:
+  domains:
+  - www.trezalabs.com
+  - media.trezalabs.com
+plugins:
+  tools:
+  - provider/treza.yaml
+meta:
+  version: 0.0.1
+  arch:
+  - amd64
+  - arm64
+  runner:
+    language: python
+    version: '3.12'
+    entrypoint: main
+  minimum_dify_version: 1.0.0

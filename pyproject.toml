@@ -1,0 +1,16 @@
+[project]
+name = "treza-dify-plugin"
+version = "0.0.1"
+description = "Treza for Dify: generate AI pictures and videos and run Treza pipelines, with a price cap on every render."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dify_plugin>=0.10.2,<0.11",
+    "requests>=2.34.2,<3",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8",
+    "pyyaml>=6",
+]

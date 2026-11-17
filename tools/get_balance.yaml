@@ -1,0 +1,19 @@
+identity:
+  name: get_balance
+  author: treza-labs
+  label:
+    en_US: Check Balance
+description:
+  human:
+    en_US: Shows how many credits are left on your Treza account. Free.
+  llm: Returns the Treza account credit balance in US dollars. Costs nothing.
+parameters: []
+output_schema:
+  type: object
+  properties:
+    balance_usd:
+      type: number
+      description: Credits left on the Treza account, in US dollars.
+extra:
+  python:
+    source: tools/get_balance.py
