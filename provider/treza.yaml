@@ -4,7 +4,7 @@ identity:
   label:
     en_US: Treza
   description:
-    en_US: Generate AI pictures and videos, and run your Treza pipelines, with a price cap on every render.
+    en_US: Generate AI pictures and videos, and run your Treza pipelines, with an optional price cap on each render.
   icon: icon.svg
   icon_dark: icon-dark.svg
   tags:

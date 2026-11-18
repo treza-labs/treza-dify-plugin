@@ -14,7 +14,7 @@ from typing import Any, Callable
 
 import requests
 
-VERSION = "0.0.1"
+VERSION = "0.0.2"
 USER_AGENT = f"treza-dify/{VERSION}"
 TOP_UP_URL = "https://www.trezalabs.com/platform/settings"
 KEYS_PAGE = "https://www.trezalabs.com/platform/api-keys"
@@ -55,11 +55,18 @@ def to_number(value: Any) -> float | None:
 
 
 def max_cost(value: Any) -> float:
-    """The price cap a render needs, since nobody approves a price mid-workflow."""
+    """The optional price cap on a render: infinity when Max cost is left empty.
+
+    It used to be required, with a default per tool ($2 for video). That default
+    stopped clips people meant to make: 8 seconds of Seedance 2.5 is $2.63.
+    """
     number = to_number(value)
-    if number is None or number <= 0:
-        raise TrezaError("Set Max cost (USD) to the most this step may spend, for example 0.25.")
-    return number
+    return number if number is not None and number > 0 else float("inf")
+
+
+def price_limit(cap: float) -> float | None:
+    """The cap as Treza's maxPriceUsd, or None (not sent) when there is none."""
+    return cap if cap != float("inf") else None
 
 
 class TrezaClient:

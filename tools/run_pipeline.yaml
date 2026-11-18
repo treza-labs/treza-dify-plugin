@@ -5,7 +5,7 @@ identity:
     en_US: Run a Pipeline
 description:
   human:
-    en_US: Runs one of your Treza pipelines with new inputs. Treza quotes the price first and stops if it is over Max cost.
+    en_US: Runs one of your Treza pipelines with new inputs. Treza quotes the price first, and stops if it is over a Max cost you set.
   llm: Runs a saved Treza pipeline by its ID, optionally with new inputs, and returns a link to the finished file. The cost comes out of the Treza account credits, up to the cap the user set.
 parameters:
 - name: pipeline_id
@@ -28,14 +28,13 @@ parameters:
   llm_description: A JSON object string mapping input step IDs to new values.
 - name: max_cost_usd
   type: number
-  required: true
+  required: false
   form: form
   label:
     en_US: Max cost (USD)
   human_description:
-    en_US: The most this step may spend. Treza quotes the price first. If it is higher, the step stops and nothing is spent.
-  llm_description: The spending cap in US dollars, set by the user.
-  default: 5
+    en_US: Optional. The most this step may spend. Treza quotes the price first. If it is higher, the step stops and nothing is spent. Leave empty for no limit.
+  llm_description: An optional spending cap in US dollars, set by the user.
   min: 0.01
 - name: wait_seconds
   type: number

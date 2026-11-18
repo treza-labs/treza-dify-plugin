@@ -5,7 +5,7 @@ from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 
 from tools.base import TrezaTool, quote_summary
-from tools.client import compact, max_cost
+from tools.client import compact, max_cost, price_limit
 
 
 class GenerateImageTool(TrezaTool, Tool):
@@ -18,7 +18,7 @@ class GenerateImageTool(TrezaTool, Tool):
                 "aspectRatio": tool_parameters.get("aspect_ratio"),
                 "model": tool_parameters.get("model"),
                 "name": tool_parameters.get("name"),
-                "maxPriceUsd": cap,
+                "maxPriceUsd": price_limit(cap),
             }
         )
         started = client.start_quoted(cap, lambda: client.request("make_image", args))

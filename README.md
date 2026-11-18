@@ -1,6 +1,6 @@
 # Treza for Dify
 
-Generate AI pictures and videos inside your Dify apps, agents and workflows, and run your own [Treza](https://www.trezalabs.com) pipelines. Every render has a price cap: Treza quotes the price first, and if it is over your **Max cost** the step stops and nothing is spent.
+Generate AI pictures and videos inside your Dify apps, agents and workflows, and run your own [Treza](https://www.trezalabs.com) pipelines. Treza quotes the price of every render first. Set a **Max cost** and, if the price is over it, the step stops and nothing is spent.
 
 Source: https://github.com/treza-labs/treza-dify-plugin
 
@@ -8,9 +8,9 @@ Source: https://github.com/treza-labs/treza-dify-plugin
 
 | Tool | What it does | Cost |
 | --- | --- | --- |
-| **Generate an Image** | Makes a picture from a prompt and returns the image and its link. | Uses your Treza credits, up to Max cost |
-| **Generate a Video** | Makes a short video clip from a prompt and returns a link to the MP4. | Uses your Treza credits, up to Max cost |
-| **Run a Pipeline** | Runs one of your saved Treza pipelines, with new inputs if you want. | Uses your Treza credits, up to Max cost |
+| **Generate an Image** | Makes a picture from a prompt and returns the image and its link. | Uses your Treza credits |
+| **Generate a Video** | Makes a short video clip from a prompt and returns a link to the MP4. | Uses your Treza credits |
+| **Run a Pipeline** | Runs one of your saved Treza pipelines, with new inputs if you want. | Uses your Treza credits |
 | **Check a Render** | Looks up a render by its run ID and returns the file, or its status. | Free |
 | **Check Balance** | Shows the credits left on your Treza account. | Free |
 
@@ -22,7 +22,7 @@ Source: https://github.com/treza-labs/treza-dify-plugin
 
 ## Usage
 
-**In a workflow or chatflow:** add a Treza tool node, fill in the prompt and set **Max cost (USD)**. The node returns these variables for later nodes:
+**In a workflow or chatflow:** add a Treza tool node, and fill in the prompt. **Max cost (USD)** is optional: set it to cap what the step may spend. The node returns these variables for later nodes:
 
 | Variable | Meaning |
 | --- | --- |
@@ -33,7 +33,7 @@ Source: https://github.com/treza-labs/treza-dify-plugin
 | `model` | The model that made it |
 | `run_id`, `pipeline_id` | IDs for **Check a Render** |
 
-**In an agent:** enable the tools you want. The agent writes the prompt and picks the shape and length. **Max cost**, the model and the wait time are settings you fill in, so the agent cannot raise the spending cap.
+**In an agent:** enable the tools you want. The agent writes the prompt and picks the shape and length. **Max cost**, the model and the wait time are settings you fill in, so the agent cannot raise a spending cap you set. With Max cost left empty an agent can spend up to your Treza balance, so set one on tools you give to an agent.
 
 **Long renders:** pictures usually finish in under 30 seconds and videos in one to five minutes. Each render tool waits up to **Wait (seconds)** for the file. If the render is not done by then, the tool returns `status: running` with the `run_id` and `pipeline_id`. Pass those to **Check a Render** to get the file.
 

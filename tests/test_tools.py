@@ -48,6 +48,19 @@ def test_generate_image(monkeypatch):
     assert out["json"][0]["render_seconds"] == 7.3
 
 
+
+def test_generate_video_without_a_max_cost_runs_at_the_quote(monkeypatch):
+    # 0.0.2: Max cost is optional. The old $2 default refused an 8 second Seedance 2.5 clip ($2.63).
+    fake = FakeTreza(
+        make_video=[(200, {**QUOTE, "estimatedChargeUsd": 2.63, "model": "bytedance/seedance-2.5"})],
+        run_pipeline=[(200, {"runId": "r9"})],
+        get_run=[(200, {"status": "running", "pollAfterSec": 10})],
+    )
+    out = run(GenerateVideoTool, fake, {"prompt": "waves", "duration_sec": 8, "wait_seconds": 5}, monkeypatch)
+    assert fake.asked("make_video") == [{"prompt": "waves", "durationSec": 8.0}]
+    assert fake.asked("run_pipeline") and out["vars"]["price_usd"] == 2.63
+
+
 def test_generate_video_still_rendering(monkeypatch):
     fake = FakeTreza(
         make_video=[(200, {**QUOTE, "estimatedChargeUsd": 0.56, "model": "google/veo-3.1-lite"})],

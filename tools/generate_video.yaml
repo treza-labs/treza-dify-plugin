@@ -5,7 +5,7 @@ identity:
     en_US: Generate a Video
 description:
   human:
-    en_US: Makes a video clip from a prompt. Treza quotes the price first and stops if it is over Max cost.
+    en_US: Makes a video clip from a prompt. Treza quotes the price first, and stops if it is over a Max cost you set.
   llm: Generates one short AI video clip from a text prompt and returns a link to the MP4 file. Rendering takes one to five minutes. The cost comes out of the Treza account credits, up to the cap the user set.
 parameters:
 - name: prompt
@@ -19,14 +19,13 @@ parameters:
   llm_description: 'A description of the video clip: the subject, the action, the setting and the camera move.'
 - name: max_cost_usd
   type: number
-  required: true
+  required: false
   form: form
   label:
     en_US: Max cost (USD)
   human_description:
-    en_US: The most this step may spend. Treza quotes the price first. If it is higher, the step stops and nothing is spent.
-  llm_description: The spending cap in US dollars, set by the user.
-  default: 2
+    en_US: Optional. The most this step may spend. Treza quotes the price first. If it is higher, the step stops and nothing is spent. Leave empty for no limit.
+  llm_description: An optional spending cap in US dollars, set by the user.
   min: 0.01
 - name: aspect_ratio
   type: select

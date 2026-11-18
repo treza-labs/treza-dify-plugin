@@ -5,7 +5,7 @@ from dify_plugin import Tool
 from dify_plugin.entities.tool import ToolInvokeMessage
 
 from tools.base import TrezaTool, quote_summary
-from tools.client import compact, max_cost, to_number
+from tools.client import compact, max_cost, price_limit, to_number
 
 
 class GenerateVideoTool(TrezaTool, Tool):
@@ -21,7 +21,7 @@ class GenerateVideoTool(TrezaTool, Tool):
                 "model": tool_parameters.get("model"),
                 "withAudio": with_audio if isinstance(with_audio, bool) else None,
                 "name": tool_parameters.get("name"),
-                "maxPriceUsd": cap,
+                "maxPriceUsd": price_limit(cap),
             }
         )
         started = client.start_quoted(cap, lambda: client.request("make_video", args))

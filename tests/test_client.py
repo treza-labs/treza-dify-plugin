@@ -142,8 +142,10 @@ def test_refusals_say_what_to_do():
     assert "Wait 30 seconds" in str(c.refusal(429, {"error": "Too many requests.", "retryAfterSec": 30}))
 
 
-def test_max_cost_must_be_set():
+def test_max_cost_is_optional():
     assert c.max_cost("0.25") == 0.25
-    for bad in (None, "", 0, -1, "abc"):
-        with pytest.raises(c.TrezaError):
-            c.max_cost(bad)
+    # Left empty (or not a positive number) there is no cap, and none is sent to Treza.
+    for empty in (None, "", 0, -1, "abc"):
+        assert c.max_cost(empty) == float("inf")
+    assert c.price_limit(c.max_cost("")) is None
+    assert c.price_limit(c.max_cost(3)) == 3
