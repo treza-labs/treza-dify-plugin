@@ -4,6 +4,12 @@ Generate AI pictures and videos inside your Dify apps, agents and workflows, and
 
 Source: https://github.com/treza-labs/treza-dify-plugin
 
+## What Treza makes
+
+![Four short clips made with Treza: a red hover car racing through a neon city, an astronaut walking over a Martian dune at sunset, an orchid mantis on a leaf, and espresso pouring into a cup](https://raw.githubusercontent.com/treza-labs/treza-labs/main/assets/treza-demo.gif)
+
+These clips were made with [Treza](https://www.trezalabs.com), and the [Dify integration page](https://www.trezalabs.com/integrations/dify) shows how to set up this plugin.
+
 ## Tools
 
 | Tool | What it does | Cost |
